@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$EXIT — We Are The Exit Liquidity</title>
+<meta name="description" content="$EXIT — fair launch on CurveX. No presale, no team allocation, no insiders. Just a curve, and whoever's brave enough to buy first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg-2: #111114;
+    --bg-3: #17171b;
+    --exit-green: #00c853;
+    --exit-green-dim: #00c85322;
+    --danger-red: #ef3b3b;
+    --danger-red-dim: #ef3b3b1a;
+    --hazard-amber: #ffb300;
+    --text: #f2f2ee;
+    --text-dim: #8d8d93;
+    --text-faint: #55555c;
+    --border: #232327;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+  .display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* ===== Hazard stripe marquee ===== */
+  .hazard-bar {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--hazard-amber),
+      var(--hazard-amber) 14px,
+      #0a0a0c 14px,
+      #0a0a0c 28px
+    );
+    height: 34px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hazard-bar .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll-left 22s linear infinite;
+    height: 34px;
+    align-items: center;
+  }
+  .hazard-bar .marquee-track span {
+    background: #0a0a0c;
+    color: var(--hazard-amber);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 6px 24px;
+    margin: 0 4px;
+    border-radius: 3px;
+  }
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ===== Nav ===== */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,12,0.9);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-logo .mark {
+    width: 30px; height: 30px;
+    border: 2px solid var(--exit-green);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--exit-green);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .nav-logo .word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+  }
+  .nav-links a:hover { color: var(--exit-green); }
+  .nav-ca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+  .nav-ca:hover { border-color: var(--exit-green); color: var(--exit-green); }
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    nav { padding: 16px 20px; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding: 90px 48px 60px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -10%; right: -5%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--exit-green-dim), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--exit-green);
+    background: var(--exit-green-dim);
+    border: 1px solid var(--exit-green);
+    border-radius: 30px;
+    padding: 7px 16px;
+    margin-bottom: 28px;
+  }
+  .eyebrow .dot {
+    width: 7px; height: 7px;
+    background: var(--exit-green);
+    border-radius: 50%;
+    animation: blink 1.4s infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    line-height: 0.92;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  .hero h1 .line2 { color: var(--danger-red); }
+  .hero p.sub {
+    font-size: 18px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 32px;
+  }
+  .hero p.sub strong { color: var(--text); font-weight: 600; }
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .btn-primary {
+    background: var(--exit-green);
+    color: #05130a;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: border-color 0.15s ease;
+  }
+  .btn-secondary:hover { border-color: var(--text-dim); }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+  }
+  .hero-stat .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    color: var(--exit-green);
+    line-height: 1;
+  }
+  .hero-stat .lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 1px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .mascot-frame {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+  }
+  .mascot-frame img { width: 100%; }
+  .mascot-tag {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: var(--danger-red);
+    color: #1a0505;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 50px 20px; }
+    .hero h1 { font-size: 62px; }
+    .hero-right { order: -1; }
+  }
+
+  /* ===== Stats plate ===== */
+  .plate-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+  }
+  .plate-strip .inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .plate-item {
+    padding: 26px 32px;
+    border-right: 1px solid var(--border);
+  }
+  .plate-item:last-child { border-right: none; }
+  .plate-item .k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .plate-item .v {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--text);
+  }
+  .plate-item .v.green { color: var(--exit-green); }
+  @media (max-width: 900px) {
+    .plate-strip .inner { grid-template-columns: repeat(2, 1fr); }
+    .plate-item { padding: 20px; }
+  }
+
+  /* ===== Section shell ===== */
+  section.block {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 110px 48px;
+  }
+  @media (max-width: 900px) {
+    section.block { padding: 70px 20px; }
+  }
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--danger-red);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+  .section-desc {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 60px;
+  }
+
+  /* ===== 01 Notice ===== */
+  .notice-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .notice-doc {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    position: relative;
+  }
+  .notice-doc::before {
+    content: 'NOTICE';
+    position: absolute;
+    top: -13px; left: 28px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--danger-red);
+    letter-spacing: 2px;
+  }
+  .notice-doc p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+  .notice-doc p:last-child { margin-bottom: 0; }
+  .notice-doc strong { color: var(--text); }
+  .notice-side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .fact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .fact-row .label { font-size: 14px; color: var(--text-dim); }
+  .fact-row .value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--exit-green); }
+
+  /* ===== 02 Evacuation Route (signature diagram) ===== */
+  .route-wrap {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 50px;
+  }
+  .route-legend {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .legend-swatch {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+  }
+  @media (max-width: 900px) {
+    .route-wrap { padding: 24px; }
+  }
+
+  /* ===== 03 Safety data table ===== */
+  .safety-table {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .safety-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .safety-row:last-child { border-bottom: none; }
+  .safety-row:nth-child(even) { background: var(--bg-2); }
+  .safety-row > div {
+    padding: 20px 26px;
+    display: flex;
+    align-items: center;
+  }
+  .safety-row .field {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .safety-row .val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--exit-green);
+  }
+  .safety-row .desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .safety-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    background: var(--bg-3);
+    border-bottom: 1px solid var(--border);
+  }
+  .safety-head > div {
+    padding: 14px 26px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    .safety-row, .safety-head { grid-template-columns: 1fr 1fr; }
+    .safety-row .desc, .safety-head .desc-h { display: none; }
+  }
+
+  /* ===== 04 How to buy (procedure steps) ===== */
+  .procedure-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .proc-step {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 30px;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .proc-step:first-child { padding-top: 0; }
+  .proc-step:last-child { border-bottom: none; }
+  .proc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 46px;
+    color: var(--border);
+    line-height: 1;
+  }
+  .proc-body .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--danger-red);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .proc-body h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .proc-body p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  /* ===== 05 Phases (roadmap) ===== */
+  .phases-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .phase-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    position: relative;
+  }
+  .phase-card.done { border-color: var(--exit-green); }
+  .phase-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .phase-status.done { background: var(--exit-green-dim); color: var(--exit-green); }
+  .phase-status.pending { background: var(--bg-3); color: var(--text-faint); }
+  .phase-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .phase-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .phase-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) {
+    .phases-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .phases-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ===== 06 Live chart ===== */
+  .chart-frame {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-2);
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .chart-frame .placeholder-icon {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: var(--border);
+  }
+  .chart-frame p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
+  /* ===== 07 Contacts ===== */
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .contact-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    transition: border-color 0.15s ease;
+  }
+  .contact-card:hover { border-color: var(--exit-green); }
+  .contact-card .icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    color: var(--exit-green);
+    margin-bottom: 20px;
+  }
+  .contact-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .contact-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .contact-card .go {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--exit-green);
+    font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .contacts-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 50px 48px 30px;
+  }
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .footer-disclaimer {
+    font-size: 12px;
+    color: var(--text-faint);
+    line-height: 1.7;
+    max-width: 720px;
+    margin-bottom: 30px;
+  }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-links {
+    display: flex;
+    gap: 26px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<div class="hazard-bar">
+  <div class="marquee-track">
+    <span>NO PRESALE</span><span>NO TEAM ALLOCATION</span><span>LP BURNED ON GRADUATION</span><span>FAIR LAUNCH ON CURVEX</span><span>WE ARE THE EXIT LIQUIDITY</span>
+    <span>NO PRESALE</span><span>NO TEAM ALLOCATION</span><span>LP BURNED ON GRADUATION</span><span>FAIR LAUNCH ON CURVEX</span><span>WE ARE THE EXIT LIQUIDITY</span>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">
+    <div class="mark">EX</div>
+    <div class="word">$EXIT</div>
+  </div>
+  <div class="nav-links">
+    <a href="#notice">The Notice</a>
+    <a href="#route">Evac Route</a>
+    <a href="#safety">Safety Data</a>
+    <a href="#buy">How to Buy</a>
+    <a href="#phases">Roadmap</a>
+    <a href="#contacts">Contacts</a>
+  </div>
+  <div class="nav-ca" onclick="copyCA()" id="caBtn">
+    <span id="caText">CA: TBA AT LAUNCH</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow"><span class="dot"></span> EMERGENCY EXIT PROCEDURE — READ CAREFULLY</div>
+    <h1 class="display">WE ARE THE<br><span class="line2">EXIT LIQUIDITY.</span></h1>
+    <p class="sub">Every cycle. Every rug. Every "just one more candle." <strong>This time we own it.</strong> Fair launch on a Degen curve — no presale, no team bags, no insiders. Just math, and whoever's brave enough to buy first.</p>
+    <div class="hero-ctas">
+      <a href="#buy" class="btn-primary">Buy $EXIT →</a>
+      <a href="#route" class="btn-secondary">View the Route</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">0%</div>
+        <div class="lbl">Team Allocation</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">100%</div>
+        <div class="lbl">LP Burned</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">3/3</div>
+        <div class="lbl">Degen Strength</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="mascot-frame">
+      <div class="mascot-tag">RUNNING · DO NOT STOP</div>
+      <img src="mascot.png" alt="$EXIT mascot running toward the exit door">
+    </div>
+  </div>
+</section>
+
+<div class="plate-strip">
+  <div class="inner">
+    <div class="plate-item">
+      <div class="k">Occupancy Limit</div>
+      <div class="v">None</div>
+    </div>
+    <div class="plate-item">
+      <div class="k">Nearest Exit</div>
+      <div class="v green">This One</div>
+    </div>
+    <div class="plate-item">
+      <div class="k">Curve Type</div>
+      <div class="v">Degen</div>
+    </div>
+    <div class="plate-item">
+      <div class="k">Rug Status</div>
+      <div class="v green">Not Possible</div>
+    </div>
+  </div>
+</div>
+
+<section class="block" id="notice">
+  <div class="section-tag">01 — THE NOTICE</div>
+  <h2 class="section-title display">This building has one exit.</h2>
+  <p class="section-desc">And you're already in it. Here's the situation, filed for the record.</p>
+
+  <div class="notice-grid">
+    <div class="notice-doc">
+      <p>For years, CT joked about being <strong>"exit liquidity."</strong> We bought the top. We held the bags. We watched insiders dump on us in seconds while the chart was still green.</p>
+      <p><strong>CurveX was built to fix that</strong> — fair bonding curves, no presales, LP burns automatically on graduation. $EXIT is the first real test.</p>
+      <p>A coin that says the quiet part out loud, launched the way every coin should be: cheapest entry for whoever shows up first, steepest climb for whoever's patient, zero insider advantage.</p>
+      <p>If you're going to be exit liquidity — <strong>be early exit liquidity.</strong></p>
+    </div>
+    <div class="notice-side">
+      <div class="fact-row"><div class="label">Launched by</div><div class="value">Same guy who built the curve</div></div>
+      <div class="fact-row"><div class="label">Presale</div><div class="value">None — never was one</div></div>
+      <div class="fact-row"><div class="label">Team tokens</div><div class="value">0%</div></div>
+      <div class="fact-row"><div class="label">Curve</div><div class="value">Degen · Strength 3/3</div></div>
+      <div class="fact-row"><div class="label">Platform</div><div class="value">CurveX (curvex.io)</div></div>
+      <div class="fact-row"><div class="label">Graduation</div><div class="value">Auto → Raydium, LP burned</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="route">
+  <div class="section-tag">02 — EVACUATION ROUTE</div>
+  <h2 class="section-title display">Follow the curve to the exit.</h2>
+  <p class="section-desc">This is not a metaphor. This is the actual bonding curve. Buy early, and the route out is shorter than you think.</p>
+
+  <div class="route-wrap">
+    <svg width="100%" viewBox="0 0 1100 420" role="img" aria-label="Evacuation floor plan showing the bonding curve as the escape route from entry to graduation exit">
+      <title>Evacuation route diagram</title>
+      <desc>A floor-plan style diagram showing a dashed path following the Degen bonding curve shape from the entry point (you are here) to the exit door (Raydium graduation)</desc>
+
+      <rect x="0" y="0" width="1100" height="420" fill="none"/>
+
+      <line x1="60" y1="60" x2="60" y2="360" stroke="#232327" stroke-width="1"/>
+      <line x1="60" y1="360" x2="1040" y2="360" stroke="#232327" stroke-width="1"/>
+      <text x="30" y="65" font-family="IBM Plex Mono" font-size="10" fill="#55555c">HIGH</text>
+      <text x="30" y="365" font-family="IBM Plex Mono" font-size="10" fill="#55555c">LOW</text>
+      <text x="55" y="385" font-family="IBM Plex Mono" font-size="10" fill="#55555c">ENTRY</text>
+      <text x="990" y="385" font-family="IBM Plex Mono" font-size="10" fill="#55555c">GRADUATION</text>
+
+      <path d="M 60 340 C 300 330, 500 300, 650 230 C 780 160, 880 90, 1020 70"
+        fill="none" stroke="#232327" stroke-width="30" stroke-linecap="round"/>
+
+      <path d="M 60 340 C 300 330, 500 300, 650 230 C 780 160, 880 90, 1020 70"
+        fill="none" stroke="#00c853" stroke-width="3" stroke-dasharray="10 8" stroke-linecap="round">
+        <animate attributeName="stroke-dashoffset" from="0" to="-72" dur="2.4s" repeatCount="indefinite"/>
+      </path>
+
+      <circle cx="60" cy="340" r="10" fill="#0a0a0c" stroke="#ef3b3b" stroke-width="3"/>
+      <text x="40" y="322" font-family="IBM Plex Mono" font-size="12" font-weight="600" fill="#ef3b3b">YOU ARE HERE</text>
+
+      <circle cx="330" cy="322" r="6" fill="#0a0a0c" stroke="#ffb300" stroke-width="2.5"/>
+      <text x="345" y="318" font-family="IBM Plex Mono" font-size="11" fill="#ffb300">EARLY BUY ZONE</text>
+
+      <circle cx="650" cy="230" r="6" fill="#0a0a0c" stroke="#ffb300" stroke-width="2.5"/>
+      <text x="665" y="226" font-family="IBM Plex Mono" font-size="11" fill="#ffb300">MOMENTUM</text>
+
+      <g transform="translate(985, 40)">
+        <rect x="0" y="0" width="90" height="70" rx="6" fill="#111114" stroke="#00c853" stroke-width="2"/>
+        <text x="45" y="30" text-anchor="middle" font-family="Bebas Neue" font-size="18" fill="#00c853">EXIT</text>
+        <text x="45" y="48" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#8d8d93">RAYDIUM</text>
+        <text x="45" y="60" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#8d8d93">LP BURNED</text>
+      </g>
+    </svg>
+
+    <div class="route-legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#ef3b3b;"></div> Entry point — cheapest on the curve</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#ffb300;"></div> Waypoints — price accelerates</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#00c853;"></div> Exit — auto-graduation to Raydium</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="safety">
+  <div class="section-tag">03 — SAFETY DATA SHEET</div>
+  <h2 class="section-title display">No hidden hazards.</h2>
+  <p class="section-desc">Everything material to your decision, disclosed up front. No fine print in the smoke.</p>
+
+  <div class="safety-table">
+    <div class="safety-head">
+      <div>Field</div>
+      <div>Value</div>
+      <div class="desc-h">Notes</div>
+    </div>
+    <div class="safety-row">
+      <div class="field">Total supply</div>
+      <div class="val">1B</div>
+      <div class="desc">Fixed at mint. No further issuance.</div>
+    </div>
+    <div class="safety-row">
+      <div class="field">Curve</div>
+      <div class="val">Degen</div>
+      <div class="desc">Cheapest entry, exponential climb, fastest ride to graduation.</div>
+    </div>
+    <div class="safety-row">
+      <div class="field">Team allocation</div>
+      <div class="val">0%</div>
+      <div class="desc">Founder buys in on the curve like everyone else.</div>
+    </div>
+    <div class="safety-row">
+      <div class="field">LP on graduation</div>
+      <div class="val">Burned</div>
+      <div class="desc">Enforced on-chain by CurveX. Not a promise — a contract.</div>
+    </div>
+    <div class="safety-row">
+      <div class="field">Presale</div>
+      <div class="val">None</div>
+      <div class="desc">Everyone enters through the same door, same curve.</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="buy">
+  <div class="section-tag">04 — IN CASE OF FOMO</div>
+  <h2 class="section-title display">Four steps to the exit.</h2>
+  <p class="section-desc">No judges' scorecards. No waiting for approval. Just a wallet and a decision.</p>
+
+  <div class="procedure-list">
+    <div class="proc-step">
+      <div class="proc-num display">01</div>
+      <div class="proc-body">
+        <div class="tag">STEP ONE</div>
+        <h4 class="display">Get a wallet</h4>
+        <p>Install Phantom or Solflare and set it up on Solana. Takes about two minutes if you've never done it before.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num display">02</div>
+      <div class="proc-body">
+        <div class="tag">STEP TWO</div>
+        <h4 class="display">Fund with SOL</h4>
+        <p>Buy SOL on any major exchange and send it to your wallet address. Even a small amount gets you in the room.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num display">03</div>
+      <div class="proc-body">
+        <div class="tag">STEP THREE</div>
+        <h4 class="display">Head to CurveX</h4>
+        <p>Connect your wallet at curvex.io. This is the only place $EXIT lives until it graduates.</p>
+      </div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num display">04</div>
+      <div class="proc-body">
+        <div class="tag">STEP FOUR</div>
+        <h4 class="display">Buy on the curve</h4>
+        <p>Find $EXIT, enter your amount, confirm. You're on the route now — nowhere to go but toward the exit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="phases">
+  <div class="section-tag">05 — PHASES OF EVACUATION</div>
+  <h2 class="section-title display">The route ahead.</h2>
+  <p class="section-desc">Each phase clears before the next one's scheduled. No skipping the line.</p>
+
+  <div class="phases-grid">
+    <div class="phase-card done">
+      <div class="phase-status done">CLEARED</div>
+      <div class="phase-tag">PHASE I</div>
+      <h4 class="display">Fair launch</h4>
+      <p>Deploy on CurveX, Degen curve, strength 3/3. No presale, no team bags. Everyone enters the same door.</p>
+    </div>
+    <div class="phase-card">
+      <div class="phase-status pending">IN PROGRESS</div>
+      <div class="phase-tag">PHASE II</div>
+      <h4 class="display">Build the corner</h4>
+      <p>Real holders, real activity, CT presence. Memes, community, and a chart that keeps moving.</p>
+    </div>
+    <div class="phase-card">
+      <div class="phase-status pending">QUEUED</div>
+      <div class="phase-tag">PHASE III</div>
+      <h4 class="display">Graduation</h4>
+      <p>Hit the target, graduate to Raydium, LP burns automatically. Proof of concept, on-chain.</p>
+    </div>
+    <div class="phase-card">
+      <div class="phase-status pending">NOT SCHEDULED</div>
+      <div class="phase-tag">PHASE IV</div>
+      <h4 class="display">Next door</h4>
+      <p>Community-voted next steps. Same builder, same curve philosophy, new exit.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="chart">
+  <div class="section-tag">06 — LIVE FEED</div>
+  <h2 class="section-title display">Watch the route live.</h2>
+  <p class="section-desc">Real-time curve activity, straight from CurveX. No spin, just the chart.</p>
+
+  <div class="chart-frame">
+    <div class="placeholder-icon display">LIVE</div>
+    <p>Chart embed goes live at launch —<br>track $EXIT directly on curvex.io</p>
+  </div>
+</section>
+
+<section class="block" id="contacts">
+  <div class="section-tag">07 — EMERGENCY CONTACTS</div>
+  <h2 class="section-title display">Nobody exits alone.</h2>
+  <p class="section-desc">Where to find the rest of the room.</p>
+
+  <div class="contacts-grid">
+    <a href="https://x.com/ExitLiquidityCX" class="contact-card" target="_blank">
+      <div class="icon">X</div>
+      <h4 class="display">X / Twitter</h4>
+      <p>Chart updates, launch news, and the fastest way to catch an announcement before it moves.</p>
+      <div class="go">Follow →</div>
+    </a>
+    <a href="https://t.me/exitliquidityCX" class="contact-card" id="tgLink" target="_blank">
+      <div class="icon">TG</div>
+      <h4 class="display">Telegram</h4>
+      <p>Where the room actually talks. Real holders, real questions, no bots.</p>
+      <div class="go">Join →</div>
+    </a>
+    <a href="https://curvex.io" class="contact-card">
+      <div class="icon">CX</div>
+      <h4 class="display">CurveX</h4>
+      <p>The platform $EXIT was born on. Fair curves, AI risk signals, no rugs possible.</p>
+      <div class="go">Visit curvex.io →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <p class="footer-disclaimer">$EXIT is a community memecoin launched on CurveX with no intrinsic value or expectation of financial return. It is a fair-launch experiment, not a security, and nothing here is financial advice. Do your own research before buying any token. Crypto is volatile — never put in more than you can afford to lose.</p>
+    <div class="footer-bottom">
+      <div class="footer-links">
+        <a href="#notice">The Notice</a>
+        <a href="#buy">How to Buy</a>
+        <a href="#contacts">Contacts</a>
+      </div>
+      <div class="footer-copy">© 2026 $EXIT — NO EXITS RESERVED</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function copyCA() {
+    const caText = document.getElementById('caText');
+    const original = caText.textContent;
+    navigator.clipboard.writeText(original.replace('CA: ', '')).catch(()=>{});
+    caText.textContent = 'COPIED';
+    setTimeout(() => { caText.textContent = original; }, 1500);
+  }
+</script>
+
+</body>
+</html>
