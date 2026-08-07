@@ -355,6 +355,64 @@
     color: var(--text-faint);
     margin: 22px 0 32px;
   }
+  .hero-ca {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-2);
+    border: 1px dashed var(--exit-green);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 26px;
+    max-width: 100%;
+  }
+  .hero-ca .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--exit-green);
+    flex-shrink: 0;
+    animation: blink 1.4s infinite;
+  }
+  .hero-ca-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-faint);
+    flex-shrink: 0;
+  }
+  .hero-ca-addr {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+  }
+  .hero-ca-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--exit-green);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .hero-ca-copy:hover { border-color: var(--exit-green); background: var(--exit-green-dim); }
+  .hero-ca-copy svg { width: 13px; height: 13px; }
+  .hero-ca-copy.copied { color: var(--text); border-color: var(--exit-green); background: var(--exit-green-dim); }
+  @media (max-width: 480px) {
+    .hero-ca { flex-wrap: wrap; }
+    .hero-ca-addr { max-width: 160px; }
+  }
   .hero-ctas {
     display: flex;
     flex-wrap: wrap;
@@ -737,8 +795,7 @@
     <a href="#rules">Our Rules</a>
     <a href="#contacts">Contacts</a>
   </div>
-  <!-- Placeholder until the contract is live. -->
-  <div class="nav-ca"><span class="pulse"></span> CA: TO BE REVEALED</div>
+  <div class="nav-ca"><span class="pulse"></span> CA: A6BE4K8L...MVNpump</div>
 </nav>
 
 <section class="hero">
@@ -751,10 +808,18 @@
     <p class="sub">Every bull run has winners. Every bull run has Exit Liquidity.</p>
     <p class="sub">We were told to hold. We're the ones who leave first. <strong>Nine lives, zero regrets.</strong></p>
     <p class="tagline">No bullshit. No VC. No insiders. Just cats who know the door when they see it.</p>
+    <div class="hero-ca">
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="hero-ca-label">CA</span>
+      <span class="hero-ca-addr mono" id="ca-address">A6BE4K8LJDpo3oNAfnfEMibiG6aSJQgx1kWxMMVNpump</span>
+      <button type="button" class="hero-ca-copy" id="copy-ca-btn" aria-label="Copy contract address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span id="copy-ca-btn-label">Copy</span>
+      </button>
+    </div>
     <div class="hero-ctas">
       <a href="https://t.me/+mp0XJ7pQCU5lNjU0" target="_blank" class="btn-primary">Join the Pack →</a>
-      <!-- TODO: replace with live buy link once the contract is deployed -->
-      <a href="#" class="btn-secondary">Buy $CATEXIT</a>
+      <a href="https://pump.fun/coin/A6BE4K8LJDpo3oNAfnfEMibiG6aSJQgx1kWxMMVNpump" target="_blank" rel="noopener noreferrer" class="btn-secondary">Buy $CATEXIT</a>
     </div>
   </div>
   <div class="hero-right">
@@ -804,7 +869,7 @@
   <h2 class="closing-text display">Nine lives. One exit.</h2>
   <div class="hero-ctas">
     <a href="https://t.me/+mp0XJ7pQCU5lNjU0" target="_blank" class="btn-primary">Join the Pack →</a>
-    <a href="#" class="btn-secondary">Buy $CATEXIT</a>
+    <a href="https://pump.fun/coin/A6BE4K8LJDpo3oNAfnfEMibiG6aSJQgx1kWxMMVNpump" target="_blank" rel="noopener noreferrer" class="btn-secondary">Buy $CATEXIT</a>
   </div>
 </section>
 
@@ -890,6 +955,37 @@
       });
     }, { threshold: 0.2 });
     rulesObserver.observe(rulesGrid);
+  }
+
+  var copyBtn = document.getElementById('copy-ca-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var addr = document.getElementById('ca-address').textContent.trim();
+      var label = document.getElementById('copy-ca-btn-label');
+
+      function showCopied() {
+        copyBtn.classList.add('copied');
+        label.textContent = 'Copied!';
+        setTimeout(function () {
+          copyBtn.classList.remove('copied');
+          label.textContent = 'Copy';
+        }, 1500);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(addr).then(showCopied);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = addr;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied();
+      }
+    });
   }
 })();
 </script>
